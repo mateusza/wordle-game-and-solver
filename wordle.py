@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# author: Mateusz Adamowski <mateusz at adamowski dot pl>
+#
+# homepage: https://github.com/mateusza/wordle-game-and-solver
+
 """Play and solve wordle"""
 
 import functools

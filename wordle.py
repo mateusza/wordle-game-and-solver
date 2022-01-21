@@ -201,7 +201,7 @@ def play_wordle(language: str) -> None:
 def solve_wordle(language: str) -> None:
     "Solve wordle game in CLI"
 
-    hint_len = 20
+    hint_len = 8
     solver = Solver.new(language)
     print("Type your last guess along with response encoded as follows:")
     examples = ['+__+_', '_?___', '+?_??']

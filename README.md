@@ -28,13 +28,16 @@ Type your last guess along with response encoded as follows:
 - 🟩🟨⬛🟨🟨 => +?_??
 etc...
 
-Some words to start with: ['erase', 'finny', 'elate', 'fists', 'spite', 'leaks', 'hymns', 'fuchs', 'coves', 'myers', 'filly', 'sammy', 'murks', 'myles', 'eject', 'sexed', 'abbot', 'sakha', 'capri', 'sykes']
+Some words to start with: ['prods', 'russo', 'decca', 'ideas',
+'tamps', 'solis', 'soddy', 'leaks']
 Your last guess and result: track +?___
-Words: ['turds', 'tyler', 'throb', 'timur', 'tiers', 'three', 'tuber', 'tumor', 'tiger', 'terse', 'torte', 'tiros', 'throe', 'third', 'terms', 'tenor', 'torts', 'timer', 'terry', 'turns'] (27 more)
+Words: ['torus', 'tiber', 'tiers', 'turfs', 'their', 'twerp',
+'tuner', 'three'] (39 more)
 Your last guess and result: three +_?+?
-Words: ['tyler', 'tuber', 'tiger', 'timer', 'tower', 'tiber', 'toner', 'tuner']
+Words: ['tiber', 'tuner', 'tuber', 'tower', 'tiger', 'toner',
+'tyler', 'timer']
 Your last guess and result: tiger ++_++
-Words: ['timer', 'tiber']
+Words: ['tiber', 'timer']
 Your last guess and result: timer ++_++
 Words: ['tiber']
 ```

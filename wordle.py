@@ -6,9 +6,9 @@
 
 """Play and solve wordle"""
 
+import argparse
 import functools
 import random
-import sys
 
 
 def verdict(the_guess: str, the_word: str) -> str:
@@ -92,10 +92,14 @@ class Game:
         self.charset = charset
 
 
-    def start(self):
+    def start(self, word: str = None):
         "Reset the game"
 
-        self.word = random.choice([*self.wordset.words])
+        if word is not None:
+            self.wordset.words.add(word)
+            self.word = word
+        else:
+            self.word = random.choice([*self.wordset.words])
         self.won = False
         self.guesses = []
         self.verdicts = []
@@ -126,13 +130,13 @@ class Game:
 
 
     @classmethod
-    def new(cls, language: str):
+    def new(cls, language: str, word: str = None):
         "Create a new game object, load wordset in given language, start the game."
 
         wordset = Wordset.load_dict(language)
         charset = Wordset.get_charset(language)
         game = cls(wordset=wordset, charset=charset)
-        game.start()
+        game.start(word=word)
         return game
 
 
@@ -181,10 +185,10 @@ class Solver:
         self.possible = [w for w in self.possible if match_verdict(the_verdict, w, the_guess)]
 
 
-def play_wordle(language: str) -> None:
+def play_wordle(language: str, word: str = None) -> None:
     "Play a game in CLI"
 
-    game = Game.new(language)
+    game = Game.new(language, word=word)
     while True:
         your_guess = input("Your guess: ").lower()
         result = game.guess(your_guess)
@@ -231,19 +235,24 @@ def solve_wordle(language: str) -> None:
 
 if __name__ == '__main__':
 
-    LANG = 'american-english'
-    MODE = 'PLAY'
+    parser = argparse.ArgumentParser(description='Play or solve wordle')
+    parser.add_argument('-l', '--language',
+            nargs=1, default='american-english', help='language to use')
+    parser.add_argument('-s', '--solve', action='store_true', help='solving mode')
+    parser.add_argument('-w', '--word', nargs=1, help='secret word to guess (testing and demo)')
+    parser.add_argument('--pl', action='store_true', help='Set language to Polish')
 
-    for arg in sys.argv:
-        if arg == '--pl':
-            LANG = 'polish'
-        if arg == '--solve':
-            MODE = 'SOLVE'
+    args = parser.parse_args()
+
+    if args.pl:
+        args.language = 'polish'
+
+    word = args.word[0] if args.word is not None else None
 
     try:
-        if MODE == 'SOLVE':
-            solve_wordle(LANG)
+        if args.solve:
+            solve_wordle(args.language)
         else:
-            play_wordle(LANG)
+            play_wordle(args.language, word=word)
     except KeyboardInterrupt:
         print("Bye")

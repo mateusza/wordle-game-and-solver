@@ -251,8 +251,8 @@ def demo_mode(language: str, word: str = None) -> None:
         my_guess = random.choice([*solver.possible])
         print(f'Solver guessing: {my_guess}')
         result = game.guess(my_guess)
-        color_verd = Game.color_verdict(result['verdict']
-        print(f'Game response: {color_verd}'))
+        color_verd = Game.color_verdict(result['verdict'])
+        print(f'Game response: {color_verd}')
         assert result['guess'] == my_guess
         if result['won']:
             print(f'Winner! Word: {my_guess}')

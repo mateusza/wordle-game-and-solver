@@ -7,15 +7,15 @@
 
 ```
 $ ./wordle.py 
-Your guess: track 
-🟩🟨⬛⬛⬛
-Your guess: three
-🟩⬛🟨🟩🟨
-Your guess: tiger
-🟩🟩⬛🟩🟩
-Your guess: timer
-🟩🟩⬛🟩🟩
-Your guess: tiber
+Your guess: dirty
+⬛⬛🟨⬛⬛
+Your guess: gears
+⬛🟨🟨🟨⬛
+Your guess: baker
+⬛🟩⬛🟩🟩
+Your guess: paper
+⬛🟩🟩🟩🟩
+Your guess: caper
 🟩🟩🟩🟩🟩
 ```
 
@@ -30,18 +30,15 @@ Type your last guess along with response encoded as follows:
 - 🟩🟨⬛🟨🟨 => +?_??
 etc...
 
-Some words to start with: ['prods', 'russo', 'decca', 'ideas',
-'tamps', 'solis', 'soddy', 'leaks']
-Your last guess and result: track +?___
-Words: ['torus', 'tiber', 'tiers', 'turfs', 'their', 'twerp',
-'tuner', 'three'] (39 more)
-Your last guess and result: three +_?+?
-Words: ['tiber', 'tuner', 'tuber', 'tower', 'tiger', 'toner',
-'tyler', 'timer']
-Your last guess and result: tiger ++_++
-Words: ['tiber', 'timer']
-Your last guess and result: timer ++_++
-Words: ['tiber']
+Some words to start with: abate, plead, dally, spray, rumps, legit, euler, serge
+Your last guess and result: dirty __?__
+Words: rumps, euler, hover, sucre, gears, mourn, rhone, peers (496 more)
+Your last guess and result: gears _???_
+Words: waver, creak, haler, freak, lamer, abler, haber, baker (21 more)
+Your last guess and result: baker _+_++
+Words: waver, haler, lamer, wafer, racer, caper, paper, laxer (2 more)
+Your last guess and result: paper _++++
+Words: caper
 ```
 
 

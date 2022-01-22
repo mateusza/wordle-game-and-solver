@@ -41,10 +41,50 @@ Your last guess and result: paper _++++
 Words: caper
 ```
 
+## The demo mode (Game + Solver)
+
+```
+$ ./wordle.py --demo
+Solver: 5905 possible words.
+Solver guessing: hunts
+Game response: 🟩⬛⬛⬛⬛
+Solver: 74 possible words.
+Solver guessing: hooke
+Game response: 🟩🟩⬛⬛🟩
+Solver: 4 possible words.
+Solver guessing: homie
+Game response: 🟩🟩⬛⬛🟩
+Solver: 3 possible words.
+Solver guessing: hoyle
+Game response: 🟩🟩⬛⬛🟩
+Solver: 2 possible words.
+Solver guessing: horde
+Game response: 🟩🟩⬛🟨🟩
+Solver: 1 possible words.
+Solver guessing: hodge
+Game response: 🟩🟩🟩🟩🟩
+Winner! Word: hodge
+```
+
+### Demo mode with given word
+
+```
+$ ./wordle.py --demo --word crazy
+Solver: 5905 possible words.
+Solver guessing: irked
+Game response: ⬛🟩⬛⬛⬛
+Solver: 141 possible words.
+Solver guessing: crams
+Game response: 🟩🟩🟩⬛⬛
+Solver: 3 possible words.
+Solver guessing: crazy
+Game response: 🟩🟩🟩🟩🟩
+Winner! Word: crazy
+```
 
 ## Languages
 
-Currently **English** and **Polish** (`--pl`) are supported in both game and solver.
+Currently **English** and **Polish** are supported in both game and solver.
 
 
 ## Requirements

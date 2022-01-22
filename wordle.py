@@ -240,28 +240,51 @@ def solve_wordle(language: str) -> None:
             break
 
 
+def demo_mode(language: str, word: str = None) -> None:
+    """Computer plays against itself"""
+
+    game = Game.new(language=language, word=word)
+    solver = Solver.new(language=language)
+
+    while True:
+        print(f"Solver: {len(solver.possible)} possible words.")
+        my_guess = random.choice([*solver.possible])
+        print(f'Solver guessing: {my_guess}')
+        result = game.guess(my_guess)
+        print(f'Game response: ' + Game.color_verdict(result['verdict']))
+        assert result['guess'] == my_guess
+        if result['won']:
+            print(f'Winner! Word: {my_guess}')
+            break
+        solver.update(my_guess, result['verdict'])
+
+
 def main():
     "The main()"
 
     parser = argparse.ArgumentParser(description='Play or solve wordle')
     parser.add_argument('-l', '--language',
-                        nargs=1, default='american-english', help='language to use')
+                        nargs=1, default=['american-english'], help='language to use')
     parser.add_argument('-s', '--solve', action='store_true', help='solving mode')
+    parser.add_argument('-d', '--demo', action='store_true', help='let solver play')
     parser.add_argument('-w', '--word', nargs=1, help='secret word to guess (testing and demo)')
     parser.add_argument('--pl', action='store_true', help='Set language to Polish')
 
     args = parser.parse_args()
 
     if args.pl:
-        args.language = 'polish'
+        args.language = ['polish']
 
-    word = args.word[0] if args.word is not None else None
+    word = args.word[0] if args.word else None
+    language = args.language[0] if args.language else None
 
     try:
         if args.solve:
-            solve_wordle(args.language)
+            solve_wordle(language=language)
+        elif args.demo:
+            demo_mode(language=language, word=word)
         else:
-            play_wordle(args.language, word=word)
+            play_wordle(language=language, word=word)
     except KeyboardInterrupt:
         print("Bye")
 

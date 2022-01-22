@@ -61,5 +61,4 @@ Currently **English** and **Polish** (`--pl`) are supported in both game and sol
 
 - More dictionaries
 - Support for other platforms (different dictionary format and location)
-- Missing `--help` and `usage`
 

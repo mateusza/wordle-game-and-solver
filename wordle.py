@@ -240,15 +240,21 @@ def solve_wordle(language: str, length: int = 5) -> None:
             break
 
 
-def demo_mode(language: str, word: str = None, length: int = 5) -> None:
+def demo_mode(language: str, word: str = None, length: int = 5, words_to_try: list = None) -> None:
     """Computer plays against itself"""
+
+    if words_to_try is None:
+        words_to_try = []
 
     game = Game.new(language=language, word=word, length=length)
     solver = Solver.new(language=language, length=length)
 
     while True:
         print(f"Solver: {len(solver.possible)} possible words.")
-        my_guess = random.choice([*solver.possible])
+        if len(words_to_try) > 0:
+            my_guess = words_to_try.pop(0)
+        else:
+            my_guess = random.choice([*solver.possible])
         print(f'Solver guessing: {my_guess}')
         result = game.guess(my_guess)
         color_verd = Game.color_verdict(result['verdict'])
@@ -272,6 +278,9 @@ def main():
     parser.add_argument('-n', '--length',
                         nargs=1, default=[5], type=int, help='word length')
     parser.add_argument('--pl', action='store_true', help='Set language to Polish')
+    parser.add_argument('-t', '--try-words',
+                        nargs=1, default=[''],
+                        help='Words to try first in demo mode (comma separated)')
 
     args = parser.parse_args()
 
@@ -281,6 +290,8 @@ def main():
     word = args.word[0] if args.word else None
     language = args.language[0] if args.language else None
     length = args.length[0]
+    words_to_try = args.try_words[0].split(',') if args.try_words[0] else []
+
     if args.word:
         length = len(word)
 
@@ -288,7 +299,7 @@ def main():
         if args.solve:
             solve_wordle(language=language, length=length)
         elif args.demo:
-            demo_mode(language=language, word=word, length=length)
+            demo_mode(language=language, word=word, length=length, words_to_try=words_to_try)
         else:
             play_wordle(language=language, word=word, length=length)
     except KeyboardInterrupt:

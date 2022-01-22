@@ -82,9 +82,43 @@ Game response: 🟩🟩🟩🟩🟩
 Winner! Word: crazy
 ```
 
+### Demo mode with custom length
+```
+ ./wordle.py --length 13 --demo
+Solver: 1831 possible words.
+Solver guessing: grammatically
+Game response: ⬛⬛🟨⬛⬛🟨🟨🟨⬛🟨🟨🟨⬛
+Solver: 16 possible words.
+Solver guessing: faithlessness
+Game response: ⬛🟨🟨🟩⬛🟩⬛🟨🟨🟨⬛🟨🟩
+Solver: 2 possible words.
+Solver guessing: installations
+Game response: 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
+Winner! Word: installations
+```
+
+### Demo mode in Polish
+
+```
+$ ./wordle.py --language polish --length 11 --demo
+Solver: 467702 possible words.
+Solver guessing: sprasowałam
+Game response: ⬛⬛🟨⬛⬛🟨🟨🟩⬛⬛⬛
+Solver: 277 possible words.
+Solver guessing: wolborzanin
+Game response: 🟨🟩⬛⬛⬛🟨🟩🟩🟩🟩⬛
+Solver: 2 possible words.
+Solver guessing: rozwiązaniu
+Game response: 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩⬛
+Solver: 1 possible words.
+Solver guessing: rozwiązanie
+Game response: 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
+Winner! Word: rozwiązanie
+```
+
 ## Languages
 
-Currently **English** and **Polish** are supported in both game and solver.
+Currently **English** and **Polish** are supported in both game, solver and demo.
 
 
 ## Requirements

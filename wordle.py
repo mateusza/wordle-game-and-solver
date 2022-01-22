@@ -270,7 +270,7 @@ def main():
     parser.add_argument('-d', '--demo', action='store_true', help='let solver play')
     parser.add_argument('-w', '--word', nargs=1, help='secret word to guess (testing and demo)')
     parser.add_argument('-n', '--length',
-                        nargs=1, default=5, type=int, help='word length')
+                        nargs=1, default=[5], type=int, help='word length')
     parser.add_argument('--pl', action='store_true', help='Set language to Polish')
 
     args = parser.parse_args()
@@ -281,6 +281,8 @@ def main():
     word = args.word[0] if args.word else None
     language = args.language[0] if args.language else None
     length = args.length[0]
+    if args.word:
+        length = len(word)
 
     try:
         if args.solve:

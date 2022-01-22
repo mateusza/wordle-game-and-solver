@@ -1,5 +1,7 @@
 # Wordle game and solver
 
+[![Python package](https://github.com/mateusza/wordle-game-and-solver/actions/workflows/python-package.yml/badge.svg)](https://github.com/mateusza/wordle-game-and-solver/actions/workflows/python-package.yml)
+[![Pylint](https://github.com/mateusza/wordle-game-and-solver/actions/workflows/pylint.yml/badge.svg)](https://github.com/mateusza/wordle-game-and-solver/actions/workflows/pylint.yml)
 
 ## The game
 

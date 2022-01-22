@@ -149,7 +149,10 @@ class Game:
     @staticmethod
     def color_verdict(the_verdict: str) -> str:
         "Return color-coded verdict"
-        return the_verdict.replace('_', '⬛').replace('+', '🟩').replace('?', '🟨')
+
+        translations = '_⬛+🟩?🟨'
+        trans_table = {ord(a): b for a, b in zip(translations[0::2], translations[1::2])}
+        return the_verdict.translate(trans_table)
 
 
 class Solver:

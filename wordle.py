@@ -64,7 +64,7 @@ class Wordset:
                 word = line.strip().lower()
                 if len(word) != length:
                     continue
-                if only_chars and any(letter not in charset for letter in word):
+                if not set(word) < charset:
                     continue
                 words.add(word)
         return words

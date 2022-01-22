@@ -23,3 +23,27 @@ def test_verdict(testspec):
 
     guess, word, verdict = testspec.split(' ')
     assert wordle.verdict(guess, word) == verdict
+    assert wordle.match_verdict(verdict, word, guess) == True
+
+@pytest.mark.parametrize('testspec', [
+    'pudło psalm +_?__',
+    'nudes wince ?_+__',
+])
+def test_match_verdict_wrong(testspec):
+    """Test wordle.match_verdict() with incorrect param"""
+
+    guess, word, verdict = testspec.split(' ')
+    assert wordle.match_verdict(guess, word, verdict) == False
+    
+
+@pytest.mark.parametrize('testspec', [
+    '🟩⬛⬛🟩⬛ +__+_',
+    '⬛🟨⬛⬛⬛ _?___',
+    '🟩🟨⬛🟨🟨 +?_??',
+])
+def test_color_verdict(testspec):
+    """Test wordle.Game.color_verdict()"""
+
+    color, ascii = testspec.split(' ')
+    assert wordle.Game.color_verdict(ascii) == color
+

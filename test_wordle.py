@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
+"""Pytest module for wordle"""
+
 import pytest
 import wordle
 
-@pytest.mark.parametrize('t', [
+@pytest.mark.parametrize('testspec', [
     'pudło psalm +____',
     'palny psalm +??__',
     'plaga psalm +?+__',
@@ -16,6 +18,8 @@ import wordle
     'knife wince _??_+',
     'wince wince +++++',
 ])
-def test_verdict(t):
-    g, w, v = t.split(' ')
-    assert wordle.verdict(g, w) == v
+def test_verdict(testspec):
+    """Test wordle.verdict() function"""
+
+    guess, word, verdict = testspec.split(' ')
+    assert wordle.verdict(guess, word) == verdict

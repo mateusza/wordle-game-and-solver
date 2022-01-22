@@ -15,10 +15,16 @@ def verdict(the_guess: str, the_word: str) -> str:
     "Verdict"
     if len(the_guess) != len(the_word):
         raise ValueError(f'Length mismatch: {the_guess=} {the_word=}')
-    def encode(letter_a, letter_b) -> str:
-        return '+' if letter_a == letter_b else '?' if letter_a in the_word else '_'
-    return ''.join([encode(g, w) for g, w in zip(the_guess, the_word)])
 
+    matched = [a == b for a, b in zip(the_guess, the_word)]
+
+    mismatched = [letter for ok, letter in zip(matched, the_word) if not ok]
+
+    result = ['+' if ok else ('?' if g in mismatched else '_')
+              for ok, g in zip(matched, the_guess)
+             ]
+
+    return ''.join(result)
 
 def match_verdict(the_verdict: str, the_word: str, the_guess: str) -> bool:
     "Check if given word would result in given verdict"
@@ -233,11 +239,13 @@ def solve_wordle(language: str) -> None:
         if len(solver.possible) <= 1:
             break
 
-if __name__ == '__main__':
+
+def main():
+    "The main()"
 
     parser = argparse.ArgumentParser(description='Play or solve wordle')
     parser.add_argument('-l', '--language',
-            nargs=1, default='american-english', help='language to use')
+                        nargs=1, default='american-english', help='language to use')
     parser.add_argument('-s', '--solve', action='store_true', help='solving mode')
     parser.add_argument('-w', '--word', nargs=1, help='secret word to guess (testing and demo)')
     parser.add_argument('--pl', action='store_true', help='Set language to Polish')
@@ -256,3 +264,7 @@ if __name__ == '__main__':
             play_wordle(args.language, word=word)
     except KeyboardInterrupt:
         print("Bye")
+
+
+if __name__ == '__main__':
+    main()

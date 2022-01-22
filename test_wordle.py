@@ -121,3 +121,51 @@ def test_game_and_solver_random(i):
             print(f'Winner! word: {my_guess}')
             break
         solver.update(my_guess, result['verdict'])
+
+@pytest.mark.parametrize('length', range(2, 20))
+def test_game_and_solver_lengths(length):
+    """Simulate a game and let Solver win it"""
+
+    language = 'american-english'
+
+    game = wordle.Game.new(language=language, length=length)
+    solver = wordle.Solver.new(language=language, length=length)
+
+    print(f'Unknown word (length {length})')
+    while True:
+        print(f"Solver: {len(solver.possible)} possible words.")
+        assert len(solver.possible) > 0
+        my_guess = [*solver.possible][0]
+        print(f'Solver guessing: {my_guess}')
+        result = game.guess(my_guess)
+        print(f'Game result: {result}')
+        assert result['guess'] == my_guess
+        if result['won']:
+            print(f'Winner! word: {my_guess}')
+            break
+        solver.update(my_guess, result['verdict'])
+
+LANGUAGES = ['american-english', 'polish']
+
+@pytest.mark.parametrize('lang', LANGUAGES)
+def test_game_and_solver_langs(lang):
+    """Simulate a game and let Solver win it"""
+
+    language = lang
+
+    game = wordle.Game.new(language=language)
+    solver = wordle.Solver.new(language=language)
+
+    print(f'Unknown word in {lang = })')
+    while True:
+        print(f"Solver: {len(solver.possible)} possible words.")
+        assert len(solver.possible) > 0
+        my_guess = [*solver.possible][0]
+        print(f'Solver guessing: {my_guess}')
+        result = game.guess(my_guess)
+        print(f'Game result: {result}')
+        assert result['guess'] == my_guess
+        if result['won']:
+            print(f'Winner! word: {my_guess}')
+            break
+        solver.update(my_guess, result['verdict'])

@@ -41,13 +41,13 @@ class Wordset:
 
 
     @classmethod
-    def load_dict(cls, language: str) -> 'Wordset':
+    def load_dict(cls, language: str, length: int = 5) -> 'Wordset':
         "Load words from system dictionary"
 
         location: str = '/usr/share/dict'
         filename: str = f'{location}/{language}'
         charset: set = cls.get_charset(language)
-        words: set = Wordset.load_words(filename, charset, 5)
+        words: set = Wordset.load_words(filename, charset, length)
         return cls(words=words)
 
 
@@ -123,7 +123,7 @@ class Game:
                 verd = verdict(the_guess, self.word)
                 self.guesses.append(the_guess)
                 self.verdicts.append(verd)
-                if verd == '+++++':
+                if set(verd) == {'+'}:
                     self.won = True
             except ValueError:
                 verd = None
@@ -136,10 +136,10 @@ class Game:
 
 
     @classmethod
-    def new(cls, language: str, word: str = None):
+    def new(cls, language: str, word: str = None, length: int = 5):
         "Create a new game object, load wordset in given language, start the game."
 
-        wordset = Wordset.load_dict(language)
+        wordset = Wordset.load_dict(language, length=length)
         charset = Wordset.get_charset(language)
         game = cls(wordset=wordset, charset=charset)
         game.start(word=word)
@@ -174,10 +174,10 @@ class Solver:
         self.possible = [*self.wordset.words]
 
     @classmethod
-    def new(cls, language: str):
+    def new(cls, language: str, length: int = 5):
         "Create new solver, load wordset in given language"
 
-        wordset = Wordset.load_dict(language)
+        wordset = Wordset.load_dict(language, length)
         charset = Wordset.get_charset(language)
         solver = cls(wordset=wordset, charset=charset)
         solver.start()
@@ -191,10 +191,10 @@ class Solver:
         self.possible = [w for w in self.possible if match_verdict(the_verdict, w, the_guess)]
 
 
-def play_wordle(language: str, word: str = None) -> None:
+def play_wordle(language: str, word: str = None, length: int = 5) -> None:
     "Play a game in CLI"
 
-    game = Game.new(language, word=word)
+    game = Game.new(language, word=word, length=length)
     while True:
         your_guess = input("Your guess: ").lower()
         result = game.guess(your_guess)
@@ -208,11 +208,11 @@ def play_wordle(language: str, word: str = None) -> None:
             break
 
 
-def solve_wordle(language: str) -> None:
+def solve_wordle(language: str, length: int = 5) -> None:
     "Solve wordle game in CLI"
 
     hint_len = 8
-    solver = Solver.new(language)
+    solver = Solver.new(language, length=length)
     print("Type your last guess along with response encoded as follows:")
     examples = ['+__+_', '_?___', '+?_??']
     for ex in examples:
@@ -226,8 +226,8 @@ def solve_wordle(language: str) -> None:
             state = input('Your last guess and result: ')
             try:
                 guess, the_verdict = state.split(" ")
-                assert len(guess) == 5
-                assert len(the_verdict) == 5
+                assert len(guess) == length
+                assert len(the_verdict) == length
             except (AssertionError, ValueError):
                 print("Wrong value. Try again.")
                 continue
@@ -240,11 +240,11 @@ def solve_wordle(language: str) -> None:
             break
 
 
-def demo_mode(language: str, word: str = None) -> None:
+def demo_mode(language: str, word: str = None, length: int = 5) -> None:
     """Computer plays against itself"""
 
-    game = Game.new(language=language, word=word)
-    solver = Solver.new(language=language)
+    game = Game.new(language=language, word=word, length=length)
+    solver = Solver.new(language=language, length=length)
 
     while True:
         print(f"Solver: {len(solver.possible)} possible words.")
@@ -269,6 +269,8 @@ def main():
     parser.add_argument('-s', '--solve', action='store_true', help='solving mode')
     parser.add_argument('-d', '--demo', action='store_true', help='let solver play')
     parser.add_argument('-w', '--word', nargs=1, help='secret word to guess (testing and demo)')
+    parser.add_argument('-n', '--length',
+                        nargs=1, default=5, type=int, help='word length')
     parser.add_argument('--pl', action='store_true', help='Set language to Polish')
 
     args = parser.parse_args()
@@ -278,14 +280,15 @@ def main():
 
     word = args.word[0] if args.word else None
     language = args.language[0] if args.language else None
+    length = args.length[0]
 
     try:
         if args.solve:
-            solve_wordle(language=language)
+            solve_wordle(language=language, length=length)
         elif args.demo:
-            demo_mode(language=language, word=word)
+            demo_mode(language=language, word=word, length=length)
         else:
-            play_wordle(language=language, word=word)
+            play_wordle(language=language, word=word, length=length)
     except KeyboardInterrupt:
         print("Bye")
 

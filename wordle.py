@@ -59,7 +59,7 @@ class Wordset:
         words = set()
         if only_chars is not None:
             charset = set(only_chars)
-        with open(filename, 'r') as src_file:
+        with open(filename, 'r', encoding='UTF-8') as src_file:
             for line in src_file:
                 word = line.strip().lower()
                 if len(word) != length:

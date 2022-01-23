@@ -17,6 +17,18 @@ import wordle
     'agent wince __??_',
     'knife wince _??_+',
     'wince wince +++++',
+
+    'token crimp _____',
+    'claws crimp +____',
+    'crumb crimp ++_+_',
+    'crimp crimp +++++',
+
+    'kwiat struś ____?',
+    'tempo struś ?____',
+    'butny struś _??__',
+    'gluty struś __??_',
+    'struł struś ++++_',
+    'struś struś +++++',
 ])
 def test_verdict(testspec):
     """Test wordle.verdict() function"""
@@ -47,14 +59,19 @@ def test_color_verdict(testspec):
     color, asci = testspec.split(' ')
     assert wordle.Game.color_verdict(asci) == color
 
-
-def test_game1():
+@pytest.mark.parametrize('testspec', [
+    ('american-english', 'wince',
+     ['nudes ?__?_', 'lemon _?__?', 'agent __??_', 'knife _??_+', 'wince +++++']
+    ),
+    ('polish', 'struś',
+     ['kwiat ____?', 'tempo ?____', 'butny _??__', 'gluty __??_', 'struł ++++_',
+      'struś +++++']
+    ),
+])
+def test_game1(testspec):
     """Simulate a game"""
 
-    language = 'american-english'
-
-    secret = 'wince'
-    steps = ['nudes ?__?_', 'lemon _?__?', 'agent __??_', 'knife _??_+', 'wince +++++']
+    language, secret, steps = testspec
 
     game = wordle.Game.new(language=language, word=secret)
 

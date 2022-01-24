@@ -29,6 +29,10 @@ import wordle
     'gluty struś __??_',
     'struł struś ++++_',
     'struś struś +++++',
+
+    'eager dance ?+___',
+    'cache dance ?+__+',
+    'motto knoll _?___',
 ])
 def test_verdict(testspec):
     """Test wordle.verdict() function"""

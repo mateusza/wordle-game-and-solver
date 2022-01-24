@@ -27,11 +27,19 @@ def verdict(the_guess: str, the_word: str) -> str:
 
     mismatched = [letter for ok, letter in zip(matched, the_word) if not ok]
 
-    result = ['+' if ok else ('?' if g in mismatched else '_')
-              for ok, g in zip(matched, the_guess)
-             ]
+    result = ''
 
-    return ''.join(result)
+    for is_ok, guessed_letter in zip(matched, the_guess):
+        if is_ok:
+            result += '+'
+            continue
+        if guessed_letter in mismatched:
+            result += '?'
+            mismatched.remove(guessed_letter)
+            continue
+        result += '_'
+
+    return result
 
 def match_verdict(the_verdict: str, the_word: str, the_guess: str) -> bool:
     "Check if given word would result in given verdict"

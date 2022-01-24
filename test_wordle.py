@@ -33,6 +33,7 @@ import wordle
     'eager dance ?+___',
     'cache dance ?+__+',
     'motto knoll _?___',
+    'alloy knoll _???_',
 ])
 def test_verdict(testspec):
     """Test wordle.verdict() function"""

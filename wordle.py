@@ -243,7 +243,7 @@ def solve_wordle(language: str, length: int = 5) -> None:
             print(f"Final guess: {solver.possible[0]}")
             break
         if len(solver.possible) == 0:
-            print(f'Empty word list! No idea!')
+            print('Empty word list! No idea!')
             break
 
 

@@ -294,7 +294,7 @@ def demo_mode(language: str, word: str = None, length: int = 5, words_to_try: li
         solver.update(my_guess, result['verdict'])
 
 
-def main():
+def main(): # pragma: no cover
     "The main()"
 
     parser = argparse.ArgumentParser(description='Play or solve wordle')
@@ -334,5 +334,5 @@ def main():
         print("Bye")
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma: no cover
     main()

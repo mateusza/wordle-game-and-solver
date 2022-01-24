@@ -42,6 +42,14 @@ def test_verdict(testspec):
     assert wordle.verdict(guess, word) == verdict
     assert wordle.match_verdict(verdict, word, guess)
 
+
+def test_verdict_length_mismatch():
+    """Test wordle.verdict() with mismatched arguments"""
+
+    with pytest.raises(ValueError):
+        wordle.verdict("abcdefg", "xyz")
+
+
 @pytest.mark.parametrize('testspec', [
     'pudło psalm +_?__',
     'nudes wince ?_+__',
@@ -51,6 +59,8 @@ def test_match_verdict_wrong(testspec):
 
     guess, word, verdict = testspec.split(' ')
     assert not wordle.match_verdict(guess, word, verdict)
+
+
 
 
 @pytest.mark.parametrize('testspec', [
@@ -197,6 +207,13 @@ def test_game_and_solver_langs(lang):
             print(f'Winner! word: {my_guess}')
             break
         solver.update(my_guess, result['verdict'])
+
+
+def test_empty_wordset():
+    "Test empty Wordset"
+    wordset = wordle.Wordset()
+    assert wordset
+
 
 @pytest.mark.parametrize('lang', LANGUAGES)
 def test_wordset_get_random(lang):

@@ -10,6 +10,13 @@ import argparse
 import functools
 import random
 
+CHARSETS: dict = {
+    'polish': 'aąbcćdeęfghijklłmnńoópqrsśtuvwxyzżź',
+    'american-english': 'abcdefghijklmnopqrstuvwxyz',
+    'german-medical': 'abcdefghijklmnopqrstuvwxyzßäöü',
+    'esperanto': 'abcdefghijklmnopqrstuvwxyzĉĝĥĵŝŭ',
+}
+
 
 def verdict(the_guess: str, the_word: str) -> str:
     "Verdict"
@@ -73,12 +80,7 @@ class Wordset:
     @staticmethod
     def get_charset(language: str) -> str:
         "Get charset for given language"
-
-        charsets: dict = {
-            'polish': 'aąbcćdeęfghijklłmnńoópqrsśtuvwxyzżź',
-            'american-english': 'abcdefghijklmnopqrstuvwxyz'
-        }
-        return charsets[language]
+        return CHARSETS[language]
 
 
 class Game:

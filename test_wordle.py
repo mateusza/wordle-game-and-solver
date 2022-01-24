@@ -162,7 +162,7 @@ def test_game_and_solver_lengths(length):
             break
         solver.update(my_guess, result['verdict'])
 
-LANGUAGES = ['american-english', 'polish']
+LANGUAGES = wordle.CHARSETS.keys()
 
 @pytest.mark.parametrize('lang', LANGUAGES)
 def test_game_and_solver_langs(lang):

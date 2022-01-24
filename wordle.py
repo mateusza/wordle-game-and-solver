@@ -224,10 +224,11 @@ def solve_wordle(language: str, length: int = 5) -> None:
         print("- " + Game.color_verdict(ex) + ' => ' + ex)
     print('etc...')
     print()
-    hints = ', '.join(solver.possible[:hint_len])
-    print(f'Some words to start with: {hints}')
     while True:
         while True:
+            hints = ', '.join(random.sample(solver.possible, hint_len))
+            more = len(solver.possible) - hint_len
+            print(f'Possible words: {hints}' + (f' ({more} more)' if more > 0 else ''))
             state = input('Your last guess and result: ')
             try:
                 guess, the_verdict = state.split(" ")
@@ -238,10 +239,11 @@ def solve_wordle(language: str, length: int = 5) -> None:
                 continue
             break
         solver.update(guess, the_verdict)
-        hints = ', '.join(solver.possible[:hint_len])
-        more = len(solver.possible) - hint_len
-        print(f'Words: {hints}' + (f' ({more} more)' if more > 0 else ''))
-        if len(solver.possible) <= 1:
+        if len(solver.possible) == 1:
+            print(f"Final guess: {solver.possible[0]}")
+            break
+        if len(solver.possible) == 0:
+            print(f'Empty word list! No idea!')
             break
 
 

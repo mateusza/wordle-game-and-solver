@@ -44,7 +44,18 @@ class Wordset:
     def __init__(self, words=None):
         if words is None:
             words = []
-        self.words = words
+        self.words = {*words}
+
+
+    def get_random(self) -> str:
+        "Returns random word from set"
+        return random.choice([*self.words])
+
+
+    def get_random_list(self, length: int = 10) -> list:
+        "Return random list of words no longer than length."
+        new_length = min(length, len(self.words))
+        return random.sample(self.words, new_length)
 
 
     @classmethod
@@ -107,7 +118,7 @@ class Game:
             self.wordset.words.add(word)
             self.word = word
         else:
-            self.word = random.choice([*self.wordset.words])
+            self.word = self.wordset.get_random()
         self.won = False
         self.guesses = []
         self.verdicts = []
@@ -161,11 +172,11 @@ class Solver:
     "Solve wordle challenge"
 
     language: str
-    wordset: set
+    wordset: Wordset
     charset: set
     guesses: list
     verdicts: list
-    possible: list
+    possible: Wordset
 
     def __init__(self, wordset: str, charset: str):
         self.wordset = wordset
@@ -176,7 +187,7 @@ class Solver:
 
         self.guesses = []
         self.verdicts = []
-        self.possible = [*self.wordset.words]
+        self.possible = Wordset(words=self.wordset.words)
 
     @classmethod
     def new(cls, language: str, length: int = 5):
@@ -193,7 +204,8 @@ class Solver:
 
         self.guesses.append(the_guess)
         self.verdicts.append(the_verdict)
-        self.possible = [w for w in self.possible if match_verdict(the_verdict, w, the_guess)]
+        possible = {w for w in self.possible.words if match_verdict(the_verdict, w, the_guess)}
+        self.possible = Wordset(words=possible)
 
 
 def play_wordle(language: str, word: str = None, length: int = 5) -> None:
@@ -226,8 +238,8 @@ def solve_wordle(language: str, length: int = 5) -> None:
     print()
     while True:
         while True:
-            hints = ', '.join(random.sample(solver.possible, hint_len))
-            more = len(solver.possible) - hint_len
+            hints = ', '.join(solver.possible.get_random_list(hint_len))
+            more = len(solver.possible.words) - hint_len
             print(f'Possible words: {hints}' + (f' ({more} more)' if more > 0 else ''))
             state = input('Your last guess and result: ')
             try:
@@ -239,10 +251,11 @@ def solve_wordle(language: str, length: int = 5) -> None:
                 continue
             break
         solver.update(guess, the_verdict)
-        if len(solver.possible) == 1:
-            print(f"Final guess: {solver.possible[0]}")
+        if len(solver.possible.words) == 1:
+            word = solver.possible.get_random()
+            print(f"Final guess: {word}")
             break
-        if len(solver.possible) == 0:
+        if len(solver.possible.words) == 0:
             print('Empty word list! No idea!')
             break
 
@@ -257,11 +270,11 @@ def demo_mode(language: str, word: str = None, length: int = 5, words_to_try: li
     solver = Solver.new(language=language, length=length)
 
     while True:
-        print(f"Solver: {len(solver.possible)} possible words.")
+        print(f"Solver: {len(solver.possible.words)} possible words.")
         if len(words_to_try) > 0:
             my_guess = words_to_try.pop(0)
         else:
-            my_guess = random.choice([*solver.possible])
+            my_guess = solver.possible.get_random()
         print(f'Solver guessing: {my_guess}')
         result = game.guess(my_guess)
         color_verd = Game.color_verdict(result['verdict'])
@@ -309,7 +322,7 @@ def main():
             demo_mode(language=language, word=word, length=length, words_to_try=words_to_try)
         else:
             play_wordle(language=language, word=word, length=length)
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, EOFError):
         print("Bye")
 
 

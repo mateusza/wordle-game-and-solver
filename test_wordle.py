@@ -109,9 +109,9 @@ def test_game_and_solver(testspec):
     solver = wordle.Solver.new(language=language)
 
     while True:
-        print(f"Solver: {len(solver.possible)} possible words.")
-        assert len(solver.possible) > 0
-        my_guess = [*solver.possible][0]
+        print(f"Solver: {len(solver.possible.words)} possible words.")
+        assert len(solver.possible.words) > 0
+        my_guess = solver.possible.get_random()
         print(f'Solver guessing: {my_guess}')
         result = game.guess(my_guess)
         print(f'Game result: {result}')
@@ -133,9 +133,9 @@ def test_game_and_solver_random(i):
 
     print(f'Unknown word run #{i}')
     while True:
-        print(f"Solver: {len(solver.possible)} possible words.")
-        assert len(solver.possible) > 0
-        my_guess = [*solver.possible][0]
+        print(f"Solver: {len(solver.possible.words)} possible words.")
+        assert len(solver.possible.words) > 0
+        my_guess = solver.possible.get_random()
         print(f'Solver guessing: {my_guess}')
         result = game.guess(my_guess)
         print(f'Game result: {result}')
@@ -156,9 +156,9 @@ def test_game_and_solver_lengths(length):
 
     print(f'Unknown word (length {length})')
     while True:
-        print(f"Solver: {len(solver.possible)} possible words.")
-        assert len(solver.possible) > 0
-        my_guess = [*solver.possible][0]
+        print(f"Solver: {len(solver.possible.words)} possible words.")
+        assert len(solver.possible.words) > 0
+        my_guess = solver.possible.get_random()
         print(f'Solver guessing: {my_guess}')
         result = game.guess(my_guess)
         print(f'Game result: {result}')
@@ -181,9 +181,9 @@ def test_game_and_solver_langs(lang):
 
     print(f'Unknown word in {lang = })')
     while True:
-        print(f"Solver: {len(solver.possible)} possible words.")
-        assert len(solver.possible) > 0
-        my_guess = [*solver.possible][0]
+        print(f"Solver: {len(solver.possible.words)} possible words.")
+        assert len(solver.possible.words) > 0
+        my_guess = solver.possible.get_random()
         print(f'Solver guessing: {my_guess}')
         result = game.guess(my_guess)
         print(f'Game result: {result}')
@@ -192,3 +192,21 @@ def test_game_and_solver_langs(lang):
             print(f'Winner! word: {my_guess}')
             break
         solver.update(my_guess, result['verdict'])
+
+@pytest.mark.parametrize('lang', LANGUAGES)
+def test_wordset_get_random(lang):
+    "Test get_random()"
+    wordset = wordle.Wordset.load_dict(lang)
+
+    word = wordset.get_random()
+
+    assert word in wordset.words
+
+@pytest.mark.parametrize('length', [1, 2, 5, 10, 100, 1000, 10000, 100000])
+def test_wordset_get_random_list(length):
+    "Test get_random_list()"
+    lang = 'american-english'
+    wordset = wordle.Wordset.load_dict(lang)
+    words = wordset.get_random_list(length)
+
+    assert len(words) == length or len(words) == len(wordset.words)

@@ -67,6 +67,12 @@ def test_color_verdict(testspec):
      ['kwiat ____?', 'tempo ?____', 'butny _??__', 'gluty __??_', 'struł ++++_',
       'struś +++++']
     ),
+    ('polish', 'minus',
+     ['bitwa _+___', 'nisko ?+?__', 'minus +++++']
+    ),
+    ('american-english', 'knoll',
+     ['basic _____', 'lemon ?__??', 'knoll +++++']
+    ),
 ])
 def test_game1(testspec):
     """Simulate a game"""

@@ -88,6 +88,12 @@ def test_color_verdict(testspec):
     ('american-english', 'knoll',
      ['basic _____', 'lemon ?__??', 'knoll +++++']
     ),
+    ('american-english', 'sugar',
+     ['opera ___??', 'sugar +++++']
+    ),
+    ('polish', 'basta',
+     ['opera ____+', 'żabka _+?_+', 'banda ++__+', 'basta +++++']
+    ),
 ])
 def test_game1(testspec):
     """Simulate a game"""

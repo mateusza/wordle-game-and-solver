@@ -186,7 +186,7 @@ class Solver:
     charset: set
     guesses: list
     verdicts: list
-    possible: Wordset
+    __possible: Wordset
 
     def __init__(self, wordset: str, charset: str):
         self.wordset = wordset
@@ -197,7 +197,7 @@ class Solver:
 
         self.guesses = []
         self.verdicts = []
-        self.possible = Wordset(words=self.wordset.words)
+        self.__possible = Wordset(words=self.wordset.words)
 
     @classmethod
     def new(cls, language: str, length: int = 5):
@@ -214,9 +214,18 @@ class Solver:
 
         self.guesses.append(the_guess)
         self.verdicts.append(the_verdict)
-        possible = {w for w in self.possible.words if match_verdict(the_verdict, w, the_guess)}
-        self.possible = Wordset(words=possible)
+        possible = {w for w in self.__possible.words if match_verdict(the_verdict, w, the_guess)}
+        self.__possible = Wordset(words=possible)
 
+    def hints(self, list_length: int = 10) -> list:
+        return self.__possible.get_random_list(list_length)
+
+    def guess(self) -> str:
+        return self.__possible.get_random()
+
+    @property
+    def count(self) -> int:
+        return len(self.__possible.words)
 
 def play_wordle(language: str, word: str = None, length: int = 5) -> None:
     "Play a game in CLI"
@@ -248,8 +257,8 @@ def solve_wordle(language: str, length: int = 5) -> None:
     print()
     while True:
         while True:
-            hints = ', '.join(solver.possible.get_random_list(hint_len))
-            more = len(solver.possible.words) - hint_len
+            hints = ', '.join(solver.hints(hint_len))
+            more = solver.count - hint_len
             print(f'Possible words: {hints}' + (f' ({more} more)' if more > 0 else ''))
             state = input('Your last guess and result: ')
             try:
@@ -261,11 +270,11 @@ def solve_wordle(language: str, length: int = 5) -> None:
                 continue
             break
         solver.update(guess, the_verdict)
-        if len(solver.possible.words) == 1:
-            word = solver.possible.get_random()
+        if solver.count == 1:
+            word = solver.guess()
             print(f"Final guess: {word}")
             break
-        if len(solver.possible.words) == 0:
+        if solver.count == 0:
             print('Empty word list! No idea!')
             break
 
@@ -280,11 +289,11 @@ def demo_mode(language: str, word: str = None, length: int = 5, words_to_try: li
     solver = Solver.new(language=language, length=length)
 
     while True:
-        print(f"Solver: {len(solver.possible.words)} possible words.")
+        print(f"Solver: {solver.count} possible words.")
         if len(words_to_try) > 0:
             my_guess = words_to_try.pop(0)
         else:
-            my_guess = solver.possible.get_random()
+            my_guess = solver.guess()
         print(f'Solver guessing: {my_guess}')
         result = game.guess(my_guess)
         color_verd = Game.color_verdict(result['verdict'])

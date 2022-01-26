@@ -11,10 +11,12 @@ import functools
 import random
 
 CHARSETS: dict = {
-    'polish': 'aąbcćdeęfghijklłmnńoópqrsśtuvwxyzżź',
     'american-english': 'abcdefghijklmnopqrstuvwxyz',
-    'german-medical': 'abcdefghijklmnopqrstuvwxyzßäöü',
     'esperanto': 'abcdefghijklmnopqrstuvwxyzĉĝĥĵŝŭ',
+    'french': 'abcdefghijklmnopqrstuvwxyzù',
+    'german-medical': 'abcdefghijklmnopqrstuvwxyzßäöü',
+    'italian': 'abcdefghijklmnopqrstuvwxyzàèéìòù',
+    'polish': 'aąbcćdeęfghijklłmnńoópqrsśtuvwxyzżź',
 }
 
 

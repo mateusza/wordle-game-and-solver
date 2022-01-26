@@ -94,6 +94,12 @@ def test_color_verdict(testspec):
     ('polish', 'basta',
      ['opera ____+', 'żabka _+?_+', 'banda ++__+', 'basta +++++']
     ),
+    ('american-english', 'whack',
+     ['opera ____?', 'facts _??__', 'chain ?++__', 'whack +++++']
+    ),
+    ('polish', 'stary',
+     ['krowa _?__?', 'zegar ___??', 'narty _???+', 'stary +++++']
+    )
 ])
 def test_game1(testspec):
     """Simulate a game"""

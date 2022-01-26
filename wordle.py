@@ -186,7 +186,7 @@ class Solver:
     charset: set
     guesses: list
     verdicts: list
-    __possible: Wordset
+    _possible: Wordset
 
     def __init__(self, wordset: str, charset: str):
         self.wordset = wordset
@@ -197,7 +197,7 @@ class Solver:
 
         self.guesses = []
         self.verdicts = []
-        self.__possible = Wordset(words=self.wordset.words)
+        self._possible = Wordset(words=self.wordset.words)
 
     @classmethod
     def new(cls, language: str, length: int = 5):
@@ -214,21 +214,21 @@ class Solver:
 
         self.guesses.append(the_guess)
         self.verdicts.append(the_verdict)
-        possible = {w for w in self.__possible.words if match_verdict(the_verdict, w, the_guess)}
-        self.__possible = Wordset(words=possible)
+        possible = {w for w in self._possible.words if match_verdict(the_verdict, w, the_guess)}
+        self._possible = Wordset(words=possible)
 
     def hints(self, list_length: int = 10) -> list:
         "Get hints from solver"
-        return self.__possible.get_random_list(list_length)
+        return self._possible.get_random_list(list_length)
 
     def guess(self) -> str:
         "Get one guess from solver"
-        return self.__possible.get_random()
+        return self._possible.get_random()
 
     @property
     def count(self) -> int:
         "Get number of words matching so far"
-        return len(self.__possible.words)
+        return len(self._possible.words)
 
 def play_wordle(language: str, word: str = None, length: int = 5) -> None:
     "Play a game in CLI"

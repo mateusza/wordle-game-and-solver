@@ -218,13 +218,16 @@ class Solver:
         self.__possible = Wordset(words=possible)
 
     def hints(self, list_length: int = 10) -> list:
+        "Get hints from solver"
         return self.__possible.get_random_list(list_length)
 
     def guess(self) -> str:
+        "Get one guess from solver"
         return self.__possible.get_random()
 
     @property
     def count(self) -> int:
+        "Get number of words matching so far"
         return len(self.__possible.words)
 
 def play_wordle(language: str, word: str = None, length: int = 5) -> None:
